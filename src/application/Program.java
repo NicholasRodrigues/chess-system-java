@@ -1,43 +1,45 @@
 package application;
 
-import chess.ChessConsole.UI;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import chess.ChessException;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class Program {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        ChessMatch chessMatch = new ChessMatch();
 
-        while (true){
-            try{
-                UI.clearScreen();
-                UI.printBoard(chessMatch.getPieces());
-                System.out.println();
-                System.out.print("Source: ");
-                ChessPosition source = UI.readChessPosition(sc);
+	public static void main(String[] args) {
 
-                System.out.println();
-                System.out.print("Target: ");
-                ChessPosition target = UI.readChessPosition(sc);
+		Scanner sc = new Scanner(System.in);
+		ChessMatch chessMatch = new ChessMatch();
 
-                ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+		while (true) {
+			try {
+				UI.clearScreen();
+				UI.printBoard(chessMatch.getPieces());
+				System.out.println();
+				System.out.print("Source: ");
+				ChessPosition source = UI.readChessPosition(sc);
 
-            }
-            catch (ChessException e){
-                System.out.println(e.getMessage());
-                sc.nextLine();
-            }
-            catch (InputMismatchException e){
-                System.out.println(e.getMessage());
-                sc.nextLine();
-            }
-        }
+				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+				UI.clearScreen();
+				UI.printBoard(chessMatch.getPieces(), possibleMoves);
+				System.out.println();
+				System.out.print("Target: ");
+				ChessPosition target = UI.readChessPosition(sc);
 
-    }
+				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+			}
+			catch (ChessException e) {
+				System.out.println(e.getMessage());
+				sc.nextLine();
+			}
+			catch (InputMismatchException e) {
+				System.out.println(e.getMessage());
+				sc.nextLine();
+			}
+		}
+	}
 }
