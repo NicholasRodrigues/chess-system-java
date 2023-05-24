@@ -22,6 +22,9 @@ public class ChessMatch {
 
 	public ChessMatch() {
 		board = new Board(8, 8);
+		check = false;
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();
 	}
 
